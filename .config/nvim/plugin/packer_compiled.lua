@@ -159,7 +159,7 @@ _G.packer_plugins = {
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
   ["nvim-dap"] = {
-    after = { "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui", "telescope-dap.nvim" },
+    after = { "telescope-dap.nvim", "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui" },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -273,6 +273,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/landyx/.local/share/nvim/site/pack/packer/start/vim-bbye",
     url = "https://github.com/moll/vim-bbye"
+  },
+  ["vim-illuminate"] = {
+    loaded = true,
+    path = "/home/landyx/.local/share/nvim/site/pack/packer/start/vim-illuminate",
+    url = "https://github.com/RRethy/vim-illuminate"
   },
   ["which-key.nvim"] = {
     loaded = true,

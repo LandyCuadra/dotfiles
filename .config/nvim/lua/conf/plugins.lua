@@ -75,6 +75,7 @@ return packer.startup(function(use)
 	})
 	use("jose-elias-alvarez/null-ls.nvim")
 	use("jose-elias-alvarez/nvim-lsp-ts-utils")
+	use("RRethy/vim-illuminate")
 
 	-- Telescope
 	use("nvim-telescope/telescope.nvim")
