@@ -159,7 +159,7 @@ _G.packer_plugins = {
     url = "https://github.com/hrsh7th/nvim-cmp"
   },
   ["nvim-dap"] = {
-    after = { "telescope-dap.nvim", "nvim-dap-virtual-text", "DAPInstall.nvim", "nvim-dap-ui" },
+    after = { "DAPInstall.nvim", "nvim-dap-ui", "telescope-dap.nvim", "nvim-dap-virtual-text" },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -199,6 +199,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/landyx/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
     url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-transparent"] = {
+    loaded = true,
+    path = "/home/landyx/.local/share/nvim/site/pack/packer/start/nvim-transparent",
+    url = "https://github.com/xiyaowong/nvim-transparent"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
