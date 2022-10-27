@@ -692,7 +692,7 @@
     "prefix": "clgl",
     "body": [
       "console.log('************************${1:first}************************')",
-      "console.log(${1})",
+      "console.log(${2})",
       "console.log('**************************************************************')"
     ],
     "description": "Displays a message in the console",

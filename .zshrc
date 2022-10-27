@@ -122,14 +122,30 @@ alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
+export ANDROID_HOME=/usr/lib/android-sdk
+export JAVA_HOME=/usr/lib/jvm/temurin-11-jdk-amd64
+
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:/usr/sbin
-export PATH=$PATH:$HOME/.npm-global/bin:
+export PATH=$PATH:$HOME/.npm-global/bin
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/bin"
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$JAVA_HOME
 
 # fnm
 export PATH=/home/landyx/.fnm:$PATH
 eval "`fnm env`"
+
+# bit
+export PATH="$PATH:/home/landyx/bin"
+# bit end
+
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
+fi
