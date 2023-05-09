@@ -1,5 +1,6 @@
 local null_ls_status_ok, null_ls = pcall(require, "null-ls")
 if not null_ls_status_ok then
+  print("null_ls not found")
   return
 end
 
@@ -9,22 +10,23 @@ local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
 
 null_ls.setup {
-  debug = false,
+  debug = true,
   sources = {
     --Javascript
     formatting.eslint_d,
     diagnostics.eslint_d,
+    -- diagnostics.tsc,
 
     --Python
     formatting.black.with { extra_args = { "--fast" } },
     diagnostics.flake8,
 
     --PHP
-    formatting.phpcsfixer,
-    diagnostics.php,
+    --formatting.phpcsfixer,
+    --diagnostics.php,
 
     --Lua
     formatting.stylua,
-    diagnostics.luacheck,
+    -- diagnostics.luacheck,
   },
 }

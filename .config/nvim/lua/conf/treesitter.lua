@@ -5,8 +5,22 @@ end
 
 configs.setup({
 	ensure_installed = {
-    "bash", "css", "html", "javascript", "json", "http", "lua", "php", "python", "typescript", "vim", "yaml"
-  },
+		"bash",
+		"css",
+		"html",
+		"javascript",
+		"json",
+		"http",
+		"lua",
+		"php",
+		"python",
+		"typescript",
+		"tsx",
+		"vim",
+		"yaml",
+		"markdown",
+		"markdown_inline",
+	},
 	sync_install = false,
 	ignore_install = { "" }, -- List of parsers to ignore installing
 	highlight = {
@@ -18,8 +32,8 @@ configs.setup({
 		enable = true,
 	},
 	autotag = {
-    enable = true
-  },
+		enable = true,
+	},
 	rainbow = {
 		enable = true,
 		-- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
@@ -28,7 +42,7 @@ configs.setup({
 		-- colors = {}, -- table of hex strings
 		-- termcolors = {} -- table of colour name strings
 	},
-	indent = { enable = true, disable = { "yaml" } },
+	indent = { enable = true, disable = {} },
 	context_commentstring = {
 		enable = true,
 		enable_autocmd = false,

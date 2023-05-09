@@ -1,5 +1,6 @@
 local dapi_status_ok, dap_install = pcall(require, "dap-install")
 if not dapi_status_ok then
+  print("dap_install not found")
 	return
 end
 

@@ -1,24 +1,3 @@
-vim.g.nvim_tree_icons = {
-	default = "",
-	symlink = "",
-	git = {
-		unstaged = "✗",
-		staged = "✓",
-		unmerged = "",
-		renamed = "➜",
-		untracked = "★",
-		deleted = "",
-		ignored = "◌",
-	},
-	folder = {
-		default = "",
-		open = "",
-		empty = "",
-		empty_open = "",
-		symlink = "",
-	},
-}
-
 local status_ok, nvim_tree = pcall(require, "nvim-tree")
 if not status_ok then
 	return
@@ -29,9 +8,39 @@ if not config_status_ok then
 	return
 end
 
-vim.cmd("autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif")
+-- vim.cmd("autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif")
+
+local tree_cb = nvim_tree_config.nvim_tree_callback
 -- following options are the default
 nvim_tree.setup({
+	renderer = {
+		root_folder_modifier = ":t",
+		icons = {
+			glyphs = {
+				default = "",
+				symlink = "",
+				folder = {
+					arrow_open = "",
+					arrow_closed = "",
+					default = "",
+					open = "",
+					empty = "",
+					empty_open = "",
+					symlink = "",
+					symlink_open = "",
+				},
+				git = {
+					unstaged = "",
+					staged = "S",
+					unmerged = "",
+					renamed = "➜",
+					untracked = "U",
+					deleted = "",
+					ignored = "◌",
+				},
+			},
+		},
+	},
 	-- disables netrw completely
 	disable_netrw = true,
 	-- hijack netrw window on startup
@@ -51,7 +60,7 @@ nvim_tree.setup({
 	-- updates the root directory of the tree on `DirChanged` (when you run `:cd` usually)
 	update_cwd = true,
 	-- hijacks new directory buffers when they are opened.
-	update_to_buf_dir = {
+	hijack_directories = {
 		-- enable the feature
 		enable = true,
 		-- allow to open the tree if it was previously closed
@@ -61,7 +70,7 @@ nvim_tree.setup({
 	diagnostics = {
 		enable = false,
 		icons = {
-			hint = "",
+			hint = "",
 			info = "",
 			warning = "",
 			error = "",
@@ -85,24 +94,21 @@ nvim_tree.setup({
 	},
 	view = {
 		-- width of the window, can be either a number (columns) or a string in `%`, for left or right side placement
-		width = 30,
-		-- height of the window, can be either a number (columns) or a string in `%`, for top or bottom side placement
-		height = 30,
+		width = '30%',
 		-- Hide the root path of the current folder on top of the tree
 		hide_root_folder = false,
 		-- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
 		side = "left",
 		-- if true the tree will resize itself after opening a file
-		auto_resize = true,
 		mappings = {
 			-- custom only false will merge the list with the default mappings
 			-- if true, it will only use your list to set the mappings
 			custom_only = false,
 			-- list of mappings to set on the tree manually
 			list = {
-				{ key = "l", action = "edit" },
-				{ key = "h", action = "close_node" },
-				{ key = "v", action = "vsplit" },
+				{ key = { "l", "<CR>", "o" }, cb = tree_cb("edit") },
+				{ key = "h", cb = tree_cb("close_node") },
+				{ key = "v", cb = tree_cb("vsplit") },
 			},
 		},
 		number = true,

@@ -1,7 +1,7 @@
-local dapi_status_ok, dap_install = pcall(require, "dap-install")
-if not dapi_status_ok then
-	return
-end
+-- local dapi_status_ok, dap_install = pcall(require, "dap-install")
+-- if not dapi_status_ok then
+-- 	return
+-- end
 
 local dapui_status_ok, dapui = pcall(require, "dapui")
 if not dapui_status_ok then
@@ -13,6 +13,11 @@ if not dap_status_ok then
 	return
 end
 
+local dap_vscode_js_status_ok, dap_vscode_js = pcall(require, "dap-vscode-js")
+if not dap_vscode_js_status_ok then
+	return
+end
+
 local dapvt_status_ok, dapvt = pcall(require, "nvim-dap-virtual-text")
 if not dapvt_status_ok then
 	return
@@ -20,9 +25,9 @@ end
 
 local fn = vim.fn
 
-dap_install.setup({
-	installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
-})
+-- dap_install.setup({
+-- 	installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
+-- })
 
 local dap_breakpoint = {
 	breakpoint = {
@@ -64,27 +69,52 @@ dap.listeners.before.event_exited["dapui_config"] = function()
 	dapui.close()
 end
 
-dap.adapters.node2 = {
-	type = "executable",
-	command = "node",
-	args = { fn.stdpath("data") .. "/dapinstall/jsnode/vscode-node-debug2/out/src/nodeDebug.js" },
-}
-dap.configurations.javascript = {
-	{
-		name = "Launch",
-		type = "node2",
-		request = "launch",
-		program = "${file}",
-		cwd = vim.fn.getcwd(),
-		sourceMaps = true,
-		protocol = "inspector",
-		console = "integratedTerminal",
-	},
-	{
-		-- For this to work you need to make sure the node process is started with the `--inspect` flag.
-		name = "Attach to process",
-		type = "node2",
-		request = "attach",
-		processId = require("dap.utils").pick_process,
-	},
-}
+-- dap.adapters.node2 = {
+-- 	type = "executable",
+-- 	command = "node",
+-- 	args = { fn.stdpath("data") .. "/dapinstall/jsnode/vscode-node-debug2/out/src/nodeDebug.js" },
+-- }
+-- dap.configurations.javascript = {
+-- 	{
+-- 		name = "Launch",
+-- 		type = "node2",
+-- 		request = "launch",
+-- 		program = "${file}",
+-- 		cwd = vim.fn.getcwd(),
+-- 		sourceMaps = true,
+-- 		protocol = "inspector",
+-- 		console = "integratedTerminal",
+-- 	},
+-- 	{
+-- 		-- For this to work you need to make sure the node process is started with the `--inspect` flag.
+-- 		name = "Attach to process",
+-- 		type = "node2",
+-- 		request = "attach",
+-- 		processId = require("dap.utils").pick_process,
+-- 	},
+-- }
+
+print("in javascript dap")
+dap_vscode_js.setup({
+  debugger_path = '/Users/orlandocuadra/.local/share/nvim/mason/packages/js-debug-adapter',
+	adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
+})
+
+for _, lang in ipairs({ "typescript", "javascript" }) do
+	dap.configurations[lang] = {
+		{
+			type = "pwa-node",
+			request = "launch",
+			name = "Launch file",
+			program = "${file}",
+			cwd = "${workspaceFolder}",
+		},
+		{
+			type = "pwa-node",
+			request = "attach",
+			name = "Attach 8081",
+			cwd = "${workspaceFolder}",
+      port = 8081
+		},
+	}
+end

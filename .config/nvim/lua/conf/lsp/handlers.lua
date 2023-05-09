@@ -1,13 +1,22 @@
-local inspect = require("vim.inspect")
 local M = {}
 
--- TODO: backfill this to template
+local status_cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not status_cmp_ok then
+  print("cmp_nvim_lsp not found")
+	return
+end
+
+M.capabilities = vim.lsp.protocol.make_client_capabilities()
+M.capabilities.textDocument.completion.completionItem.snippetSupport = true
+M.capabilities = cmp_nvim_lsp.default_capabilities(M.capabilities)
+
 M.setup = function()
 	local signs = {
+
 		{ name = "DiagnosticSignError", text = "" },
 		{ name = "DiagnosticSignWarn", text = "" },
-		{ name = "DiagnosticSignHint", text = "" },
-		{ name = "DiagnosticSignInfo", text = "" },
+		{ name = "DiagnosticSignHint", text = "" },
+		{ name = "DiagnosticSignInfo", text = "" },
 	}
 
 	for _, sign in ipairs(signs) do
@@ -15,17 +24,15 @@ M.setup = function()
 	end
 
 	local config = {
-		-- disable virtual text
 		virtual_text = true,
-		-- show signs
 		signs = {
-			active = signs,
+			active = signs, -- show signs
 		},
-		update_in_insert = true,
+		update_in_insert = false,
 		underline = true,
 		severity_sort = true,
 		float = {
-			focusable = false,
+			focusable = true,
 			style = "minimal",
 			border = "rounded",
 			source = "always",
@@ -45,63 +52,41 @@ M.setup = function()
 	})
 end
 
-local function lsp_highlight_document(client)
-	-- Set autocommands conditional on server_capabilities
+local function lsp_keymaps(bufnr)
+	local opts = { noremap = true, silent = true, buffer = bufnr }
+	local keymap = vim.keymap.set
+	keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
+	keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+	keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+	keymap("n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	keymap("n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+	keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format{ async = true }<cr>", opts)
+	keymap("n", "<leader>li", "<cmd>LspInfo<cr>", opts)
+	keymap("n", "<leader>lI", "<cmd>Mason<cr>", opts)
+	keymap("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+	keymap("n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next({buffer=0})<cr>", opts)
+	keymap("n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>", opts)
+	keymap("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+	keymap("n", "<leader>ls", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+	keymap("n", "<leader>lq", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+end
+
+M.on_attach = function(client, bufnr)
+	if client.name == "tsserver" then
+		client.server_capabilities.documentFormattingProvider = false
+	end
+
+	if client.name == "sumneko_lua" then
+		client.server_capabilities.documentFormattingProvider = false
+	end
+
+	lsp_keymaps(bufnr)
 	local status_ok, illuminate = pcall(require, "illuminate")
 	if not status_ok then
 		return
 	end
 	illuminate.on_attach(client)
 end
-
-local function lsp_keymaps(bufnr)
-	local opts = { noremap = true, silent = true }
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-	-- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
-	vim.api.nvim_buf_set_keymap(
-		bufnr,
-		"n",
-		"gl",
-		'<cmd>lua vim.diagnostic.open_float({ border = "rounded" })<CR>',
-		opts
-	)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ld", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-	vim.cmd([[ command! Format execute 'lua vim.lsp.buf.format({async=true})' ]])
-end
-
-M.on_attach = function(client, bufnr)
-	if client.name == "tsserver" then
-		local status_ok, lsp_ts_utils = pcall(require, "nvim-lsp-ts-utils")
-		if not status_ok then
-			return
-		end
-
-		client.server_capabilities.documentFormattingProvider = false
-		lsp_ts_utils.setup({
-			filter_out_diagnostics_by_code = { 80001 },
-		})
-		lsp_ts_utils.setup_client(client)
-	end
-	lsp_keymaps(bufnr)
-	lsp_highlight_document(client)
-end
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not status_ok then
-	return
-end
-
-M.capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
 return M

@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/landyx/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -56,6 +56,86 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
 # See https://github.com/ohmyzsh/ohmyzsh/issues/5765
 # COMPLETION_WAITING_DOTS="true"
+
+# Completion for some Command line tools (pending to check)
+
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
+
+###-begin-npm-completion-###
+#
+# npm command completion script
+#
+# Installation: npm completion >> ~/.bashrc  (or ~/.zshrc)
+# Or, maybe: npm completion > /usr/local/etc/bash_completion.d/npm
+#
+
+if type complete &>/dev/null; then
+  _npm_completion () {
+    local words cword
+    if type _get_comp_words_by_ref &>/dev/null; then
+      _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
+    else
+      cword="$COMP_CWORD"
+      words=("${COMP_WORDS[@]}")
+    fi
+
+    local si="$IFS"
+    if ! IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
+                           COMP_LINE="$COMP_LINE" \
+                           COMP_POINT="$COMP_POINT" \
+                           npm completion -- "${words[@]}" \
+                           2>/dev/null)); then
+      local ret=$?
+      IFS="$si"
+      return $ret
+    fi
+    IFS="$si"
+    if type __ltrim_colon_completions &>/dev/null; then
+      __ltrim_colon_completions "${words[cword]}"
+    fi
+  }
+  complete -o default -F _npm_completion npm
+elif type compdef &>/dev/null; then
+  _npm_completion() {
+    local si=$IFS
+    compadd -- $(COMP_CWORD=$((CURRENT-1)) \
+                 COMP_LINE=$BUFFER \
+                 COMP_POINT=0 \
+                 npm completion -- "${words[@]}" \
+                 2>/dev/null)
+    IFS=$si
+  }
+  compdef _npm_completion npm
+elif type compctl &>/dev/null; then
+  _npm_completion () {
+    local cword line point words si
+    read -Ac words
+    read -cn cword
+    let cword-=1
+    read -l line
+    read -ln point
+    si="$IFS"
+    if ! IFS=$'\n' reply=($(COMP_CWORD="$cword" \
+                       COMP_LINE="$line" \
+                       COMP_POINT="$point" \
+                       npm completion -- "${words[@]}" \
+                       2>/dev/null)); then
+
+      local ret=$?
+      IFS="$si"
+      return $ret
+    fi
+    IFS="$si"
+  }
+  compctl -K _npm_completion npm
+fi
+###-end-npm-completion-###
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -110,20 +190,13 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias lg="lazygit"
-alias cl="clear"
-alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
-export ANDROID_HOME=/usr/lib/android-sdk
-export JAVA_HOME=/usr/lib/jvm/temurin-11-jdk-amd64
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/Contents/Home
 
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:/usr/local/go/bin
@@ -132,20 +205,53 @@ export PATH=$PATH:$HOME/.npm-global/bin
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/bin"
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$JAVA_HOME
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/bin
+export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
+export PATH=$PATH:$JAVA_HOME/bin
+export PATH=$PATH:/opt/homebrew/bin
+export PATH=$PATH:$HOME/flutter/bin
+
+
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias lg="lazygit"
+alias cl="clear"
+alias config="/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
+alias rnIPhone14ProMax="npx react-native run-ios --simulator='iPhone 14 Pro Max' --scheme='Universal (debug)'"
+alias rnIPhone14="npx react-native run-ios --simulator='iPhone 14' --scheme='Universal (debug)'"
+alias rnIPad5th="npx react-native run-ios --simulator='iPad Air (5th generation)' --scheme='Universal (debug)'"
+alias logcat="adb logcat '*:D' -v color"
+alias jubeupdb="jube c -y db && jube d -ay db"
+alias jubeup="jube c -y && jube d -y -c auth && jube d -y -c app"
+alias emuPhone="emulator -avd phone > /dev/null 2>&1 &"
+alias emuTablet="emulator -avd tablet > /dev/null 2>&1 &"
+alias startJoltAppAndroid="npx react-native run-android --variant=InternalDebug --appId=com.joltup.universal.internal"
+
+rnAndroidTablet(){
+  emuTablet
+  startJoltAppAndroid 
+}
+
+rnAndroidPhone(){
+  emuPhone
+  startJoltAppAndroid 
+}
 
 # fnm
-export PATH=/home/landyx/.fnm:$PATH
-eval "`fnm env`"
+eval "$(fnm env --use-on-cd)"
 
 # bit
-export PATH="$PATH:/home/landyx/bin"
+export PATH="$PATH:$HOME/bin"
 # bit end
 
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
         source /etc/profile.d/vte.sh
 fi
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+eval "$(rbenv init -)"
+
