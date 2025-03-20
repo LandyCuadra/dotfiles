@@ -1,0 +1,58 @@
+{
+  "coc.preferences.formatOnSave": false,
+  "coc.preferences.formatOnType": false,
+  "languageserver": {},
+  "Lua.diagnostics.globals": ["vim"],
+  "Lua.workspace.library": [
+    "usr/share/nvim/runtime/lua",
+    "usr/share/nvim/runtime/lua/vim",
+    "usr/share/nvim/runtime/lua/vim/lsp"
+  ],
+  "snippets.extends": {
+    "htmldjango": ["html"],
+  },
+  "eslint.format.enable": true,
+  "copilot.enable": true,
+  "prettier.enable": true,
+  "prettier.formatterPriority": 1,
+  "prettier.trailingComma": "all",
+  "typescript.suggestionActions.enabled": false,
+  "javascript.suggestionActions.enabled": false,
+  "typescript.autoClosingTags": true,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    ".*Class"
+  ],
+  "python.linting.flake8Enabled": true,
+  "pyright.enable": true,
+  "pyright.inlayHints.variableTypes": false,
+  "pyright.inlayHints.parameterTypes": false,
+  "pyright.inlayHints.functionReturnTypes": false,
+  "snippets.ultisnips.pythonPrompt": false,
+  "html.format.enable": true,
+  "html.filetypes": ["html", "handlebars", "htmldjango", "blade"],
+  "html-css-support.enable": true,
+  "html-css-support.enabledLanguages": ["html", "htmldjango"],
+  "html-css-support.styleSheets": [
+    "!!!https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css",
+    "/style.css",
+    "style.css"
+  ],
+  "htmldjango.enable": true,
+  "tailwindCSS.enable": true,
+  "tailwindCSS.includeLanguages": {
+    "eelixir": "html",
+    "elixir": "html",
+    "eruby": "html",
+    "html.twig": "html",
+    "htmldjango": "html", 
+    "javascript": "html",
+    "javascriptreact": "html",
+    "typescript": "html",
+    "typescriptreact": "html",
+  },
+}

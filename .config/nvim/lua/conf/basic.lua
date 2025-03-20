@@ -17,7 +17,6 @@ local options = {
 	softtabstop = 2, -- Insert 2 spaces for a tab
 	shiftwidth = 2, -- Change the number of space characters inserted for indentation
 	expandtab = true, -- Converts tabs to spaces
-	-- set smartindent                         -- Makes indenting smart
 	number = true, -- Line number
 	wrap = false, -- Display long lines as just one line
 	-- set background=dark                     -- tell vim what the background color looks like
@@ -35,7 +34,7 @@ local options = {
 	termguicolors = true,
 	scrolloff = 5,
 	signcolumn = "yes",
-	colorcolumn = "80",
+	colorcolumn = "100",
 	wildoptions = "pum",
 	fcs = "fold:-", -- verticle split is just bg color
 	foldcolumn = "0", -- visual representation of folds
@@ -52,6 +51,7 @@ for k, v in pairs(options) do
 end
 
 -- vim.opt.shortmess = "ilmnrx"                        -- flags to shorten vim messages, see :help 'shortmess'
+vim.loader.enable()
 vim.opt.shortmess:append "c"                           -- don't give |ins-completion-menu| messages
 vim.opt.iskeyword:append "-"                           -- hyphenated words recognized by searches
 set.formatoptions:remove({ "c", "r", "o" }) -- Stop newline continution of comments

@@ -195,8 +195,12 @@ source $ZSH/oh-my-zsh.sh
 
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
-export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
-export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jre/Contents/Home
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export JAVA_HOME=/Applications/Android\ Studio.app/Contents/jbr/Contents/Home
+export REACT_EDITOR=code
+# export REACT_EDITOR=webstorm
+export RBENV_HOME=$HOME/.rbenv
+
 
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:/usr/local/go/bin
@@ -205,12 +209,16 @@ export PATH=$PATH:$HOME/.npm-global/bin
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/Library"
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/bin
 export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:/opt/homebrew/bin
 export PATH=$PATH:$HOME/flutter/bin
+export PATH=~/.npm-global/bin:$PATH
+export PATH=$PATH:$RBENV_HOME/shims
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
 
 
 # Example aliases
@@ -219,15 +227,19 @@ export PATH=$PATH:$HOME/flutter/bin
 alias lg="lazygit"
 alias cl="clear"
 alias config="/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME"
-alias rnIPhone14ProMax="npx react-native run-ios --simulator='iPhone 14 Pro Max' --scheme='Universal (debug)'"
-alias rnIPhone14="npx react-native run-ios --simulator='iPhone 14' --scheme='Universal (debug)'"
-alias rnIPad5th="npx react-native run-ios --simulator='iPad Air (5th generation)' --scheme='Universal (debug)'"
+alias rnIPhoneProMax="npx react-native run-ios --simulator='iPhone 15 Pro Max' --scheme='Universal (debug)'"
+alias rnIPhone="npx react-native run-ios --simulator='iPhone 15' --scheme='Universal (debug)'"
+alias rnIPad="npx react-native run-ios --simulator='iPad Air 13-inch (M2)' --scheme='Universal (debug)'"
 alias logcat="adb logcat '*:D' -v color"
 alias jubeupdb="jube c -y db && jube d -ay db"
 alias jubeup="jube c -y && jube d -y -c auth && jube d -y -c app"
 alias emuPhone="emulator -avd phone > /dev/null 2>&1 &"
 alias emuTablet="emulator -avd tablet > /dev/null 2>&1 &"
 alias startJoltAppAndroid="npx react-native run-android --variant=InternalDebug --appId=com.joltup.universal.internal"
+alias rnAndroidS23Ultra="npx react-native run-android --variant=InternalDebug --appId=com.joltup.universal.internal --deviceId=R5CX525EJXR"
+alias rnIphoneLandy="npx react-native run-ios --device='iPhone Landy' --scheme='Universal (debug)'"
+alias rnAndroidLenovo="npx react-native run-android --variant=InternalDebug --appId=com.joltup.universal.internal --deviceId=HGT6KVN5"
+
 
 rnAndroidTablet(){
   emuTablet
