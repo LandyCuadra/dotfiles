@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/orlandocuadra/.cache/nvim/packer_hererocks/2.1.1724512491/share/lua/5.1/?.lua;/Users/orlandocuadra/.cache/nvim/packer_hererocks/2.1.1724512491/share/lua/5.1/?/init.lua;/Users/orlandocuadra/.cache/nvim/packer_hererocks/2.1.1724512491/lib/luarocks/rocks-5.1/?.lua;/Users/orlandocuadra/.cache/nvim/packer_hererocks/2.1.1724512491/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/orlandocuadra/.cache/nvim/packer_hererocks/2.1.1724512491/lib/lua/5.1/?.so"
+local package_path_str = "/Users/orlandocuadra/.cache/nvim/packer_hererocks/2.1.1765228720/share/lua/5.1/?.lua;/Users/orlandocuadra/.cache/nvim/packer_hererocks/2.1.1765228720/share/lua/5.1/?/init.lua;/Users/orlandocuadra/.cache/nvim/packer_hererocks/2.1.1765228720/lib/luarocks/rocks-5.1/?.lua;/Users/orlandocuadra/.cache/nvim/packer_hererocks/2.1.1765228720/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/orlandocuadra/.cache/nvim/packer_hererocks/2.1.1765228720/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -79,6 +79,11 @@ _G.packer_plugins = {
     path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/Comment.nvim",
     url = "https://github.com/numToStr/Comment.nvim"
   },
+  LuaSnip = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/LuaSnip",
+    url = "https://github.com/L3MON4D3/LuaSnip"
+  },
   ["bufdelete.nvim"] = {
     loaded = true,
     path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/bufdelete.nvim",
@@ -89,15 +94,35 @@ _G.packer_plugins = {
     path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
     url = "https://github.com/akinsho/bufferline.nvim"
   },
-  ["coc.nvim"] = {
+  ["cmp-buffer"] = {
     loaded = true,
-    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/coc.nvim",
-    url = "https://github.com/neoclide/coc.nvim"
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/cmp-buffer",
+    url = "https://github.com/hrsh7th/cmp-buffer"
   },
-  ["copilot.vim"] = {
+  ["cmp-cmdline"] = {
     loaded = true,
-    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/copilot.vim",
-    url = "https://github.com/github/copilot.vim"
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/cmp-cmdline",
+    url = "https://github.com/hrsh7th/cmp-cmdline"
+  },
+  ["cmp-nvim-lsp"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
+    url = "https://github.com/hrsh7th/cmp-nvim-lsp"
+  },
+  ["cmp-nvim-lua"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/cmp-nvim-lua",
+    url = "https://github.com/hrsh7th/cmp-nvim-lua"
+  },
+  ["cmp-path"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/cmp-path",
+    url = "https://github.com/hrsh7th/cmp-path"
+  },
+  cmp_luasnip = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
+    url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
   ["darkplus.nvim"] = {
     loaded = true,
@@ -124,15 +149,45 @@ _G.packer_plugins = {
     path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
+  ["mason-lspconfig.nvim"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
+    url = "https://github.com/williamboman/mason-lspconfig.nvim"
+  },
+  ["mason.nvim"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/mason.nvim",
+    url = "https://github.com/williamboman/mason.nvim"
+  },
+  ["none-ls-extras.nvim"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/none-ls-extras.nvim",
+    url = "https://github.com/nvimtools/none-ls-extras.nvim"
+  },
+  ["none-ls.nvim"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/none-ls.nvim",
+    url = "https://github.com/nvimtools/none-ls.nvim"
+  },
   ["nvim-autopairs"] = {
     loaded = true,
     path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/nvim-autopairs",
     url = "https://github.com/windwp/nvim-autopairs"
   },
+  ["nvim-cmp"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/nvim-cmp",
+    url = "https://github.com/hrsh7th/nvim-cmp"
+  },
   ["nvim-colorizer.lua"] = {
     loaded = true,
     path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/nvim-colorizer.lua",
     url = "https://github.com/NvChad/nvim-colorizer.lua"
+  },
+  ["nvim-lspconfig"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
+    url = "https://github.com/neovim/nvim-lspconfig"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
@@ -143,6 +198,16 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
+  },
+  ["nvim-ts-autotag"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/nvim-ts-autotag",
+    url = "https://github.com/windwp/nvim-ts-autotag"
+  },
+  ["nvim-ts-context-commentstring"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/nvim-ts-context-commentstring",
+    url = "https://github.com/JoosepAlviste/nvim-ts-context-commentstring"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
@@ -158,6 +223,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
+  },
+  ["rainbow-delimiters.nvim"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/rainbow-delimiters.nvim",
+    url = "https://github.com/HiPhish/rainbow-delimiters.nvim"
   },
   ["telescope-fzf-native.nvim"] = {
     loaded = true,
@@ -178,6 +248,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/vim-bbye",
     url = "https://github.com/moll/vim-bbye"
+  },
+  ["vim-illuminate"] = {
+    loaded = true,
+    path = "/Users/orlandocuadra/.local/share/nvim/site/pack/packer/start/vim-illuminate",
+    url = "https://github.com/RRethy/vim-illuminate"
   },
   ["vim-surround"] = {
     loaded = true,

@@ -67,33 +67,39 @@ return packer.startup(function(use)
   use("NvChad/nvim-colorizer.lua")
 
   -- cmp
-  --use({ "hrsh7th/nvim-cmp" })
-  --use({ "hrsh7th/cmp-nvim-lua" })
-  --use({ "hrsh7th/cmp-nvim-lsp" })
-  --use({ "hrsh7th/cmp-buffer" })
-  --use({ "hrsh7th/cmp-path" })
-  --use("hrsh7th/cmp-cmdline")
-  --use({ "saadparwaiz1/cmp_luasnip" })
+  use({ "hrsh7th/nvim-cmp" })
+  use({ "hrsh7th/cmp-nvim-lua" })
+  use({ "hrsh7th/cmp-nvim-lsp" })
+  use({ "hrsh7th/cmp-buffer" })
+  use({ "hrsh7th/cmp-path" })
+  use("hrsh7th/cmp-cmdline")
+  use({ "saadparwaiz1/cmp_luasnip" })
 
   -- snippets
-  -- use({
-  --   "L3MON4D3/LuaSnip",
-  --   tag = "v2.*",
-  --   run = "make install_jsregexp"
-  -- })
+  use({
+    "L3MON4D3/LuaSnip",
+    tag = "v2.*",
+    run = "make install_jsregexp"
+  })
   --use({ "rafamadriz/friendly-snippets" })
   
   -- Coc
-  use({'github/copilot.vim'})
-  use { 'neoclide/coc.nvim', branch = 'release' }
+  -- use({'github/copilot.vim'})
+  -- use { 'neoclide/coc.nvim', branch = 'release' }
 
 
   -- LSP
-  -- use({ "neovim/nvim-lspconfig" })
-  -- use({ "williamboman/mason.nvim" })
-  -- use({ "williamboman/mason-lspconfig.nvim" })
-  -- use({ "jose-elias-alvarez/null-ls.nvim" })
-  -- use({ "RRethy/vim-illuminate" })
+  use({ "neovim/nvim-lspconfig" })
+  use({ "williamboman/mason.nvim" })
+  use({ "williamboman/mason-lspconfig.nvim" })
+  use "nvimtools/none-ls-extras.nvim"
+  use({
+    "nvimtools/none-ls.nvim",
+    dependencies = {
+      "nvimtools/none-ls-extras.nvim",
+    },
+  })
+  use({ "RRethy/vim-illuminate" })
 
   -- Telescope
   use({
@@ -109,9 +115,9 @@ return packer.startup(function(use)
   use({
   "nvim-treesitter/nvim-treesitter",
   })
-  --use("windwp/nvim-ts-autotag")
-  --use("p00f/nvim-ts-rainbow")
-  --use({ "JoosepAlviste/nvim-ts-context-commentstring" })
+  use("windwp/nvim-ts-autotag")
+  use("HiPhish/rainbow-delimiters.nvim")
+  use({ "JoosepAlviste/nvim-ts-context-commentstring" })
 
   -- Git
   use({ "lewis6991/gitsigns.nvim" })

@@ -11,13 +11,21 @@ bufferline.setup({
 		close_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
 		right_mouse_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
 		left_mouse_command = "buffer %d", -- can be a string | function, see "Mouse actions"
-		max_name_length = 18,
+		max_name_length = 20,
 		max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
-		tab_size = 18,
+		tab_size = 22,
 		-- can also be a table containing 2 custom separators
 		-- [focused and unfocused]. eg: { '|', '|' }
 		separator_style = "slant", -- | "thick" | "thin" | { 'any', 'any' },
 		enforce_regular_tabs = true,
+    diagnostics = "nvim_lsp",
+    diagnostics_indicator = function(count, level, diagnostics_dict, context)
+      local icon = level:match("error") and " " or " "
+      return " " .. icon .. count
+    end,
+    name_formatter = function(buf)
+      return buf.name 
+    end,
 	},
 })
 

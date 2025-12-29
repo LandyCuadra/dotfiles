@@ -6,6 +6,7 @@ return {
 				-- (most likely LuaJIT in the case of Neovim)
 				version = "LuaJIT",
 			},
+      root_markers = {".luarc.json", ".luarc.jsonc"},
 			diagnostics = {
 				-- Get the language server to recognize the `vim` global
 				globals = {

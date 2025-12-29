@@ -4,22 +4,19 @@ if not null_ls_status_ok then
   return
 end
 
--- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
 local formatting = null_ls.builtins.formatting
--- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
-local diagnostics = null_ls.builtins.diagnostics
 
 null_ls.setup {
   debug = true,
   sources = {
     --Javascript
-    formatting.eslint_d,
-    diagnostics.eslint_d,
+    require("none-ls.formatting.eslint"),
+    require("none-ls.diagnostics.eslint"),
     -- diagnostics.tsc,
 
     --Python
     formatting.black.with { extra_args = { "--fast" } },
-    diagnostics.flake8,
+    require("none-ls.diagnostics.flake8"),
 
     --PHP
     --formatting.phpcsfixer,

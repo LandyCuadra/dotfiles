@@ -3,6 +3,15 @@ if not status_ok then
 	return
 end
 
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = false -- Auto close on trailing </
+  },
+})
+
 configs.setup({
 	ensure_installed = {
 		"bash",
@@ -31,9 +40,6 @@ configs.setup({
 	autopairs = {
 		enable = true,
 	},
-	autotag = {
-		enable = true,
-	},
 	rainbow = {
 		enable = true,
 		-- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
@@ -43,10 +49,6 @@ configs.setup({
 		-- termcolors = {} -- table of colour name strings
 	},
 	indent = { enable = true, disable = {} },
-	context_commentstring = {
-		enable = true,
-		enable_autocmd = false,
-	},
 	auto_install = true,
 	modules = {},
 })

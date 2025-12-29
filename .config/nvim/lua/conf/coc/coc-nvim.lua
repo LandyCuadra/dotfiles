@@ -1,3 +1,8 @@
+local wk = require("which-key")
+if not wk then
+  print("which-key not found")
+end
+
 local opts = {
   noremap = true,
   silent = true,
@@ -7,6 +12,11 @@ local opts = {
 
 -- Shorten function name
 local keymap = vim.keymap.set
+  if wk then
+    wk.add({
+      { "<leader>l", group = "CoC", nowait = true, remap = false },
+    })
+  end
 
 -- Autocomplete
 function _G.check_back_space()

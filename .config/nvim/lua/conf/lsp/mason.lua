@@ -2,7 +2,7 @@ local servers = {
 	"lua_ls",
 	"cssls",
 	"html",
-	"tsserver",
+	"ts_ls",
 	"pyright",
 	"bashls",
 	"jsonls",
@@ -10,8 +10,7 @@ local servers = {
 	"intelephense",
 }
 
-local serverLspConfig = {
-}
+local serverLspConfig = {}
 
 local settings = {
 	ui = {
@@ -32,12 +31,6 @@ require("mason-lspconfig").setup({
 	automatic_installation = true,
 })
 
-local lspconfig_status_ok, lspconfig = pcall(require, "lspconfig")
-if not lspconfig_status_ok then
-	print("lsp config status not loaded")
-	return
-end
-
 local opts = {}
 
 for _, server in pairs(servers) do
@@ -55,5 +48,11 @@ for _, server in pairs(servers) do
 		opts = vim.tbl_deep_extend("force", conf_opts, opts)
 	end
 
-	lspconfig[server].setup(opts)
+	local ok = pcall(function()
+		vim.lsp.config(server, opts)
+	end)
+
+	if ok then
+		vim.lsp.enable(server)
+	end
 end
